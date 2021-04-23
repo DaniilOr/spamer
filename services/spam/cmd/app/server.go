@@ -3,9 +3,9 @@ package app
 import (
 	"context"
 	serverPb "github.com/DaniilOr/spamer/services/spam/pkg/server"
+	"github.com/DaniilOr/spamer/services/spam/pkg/spam"
 	"go.opencensus.io/trace"
 	"log"
-	"spamer/services/spam/pkg/spam"
 )
 
 type Server struct {

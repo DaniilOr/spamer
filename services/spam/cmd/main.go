@@ -69,8 +69,8 @@ func execute(addr string, pyurl string) error {
 	}
 	ctx := context.Background()
 	grpcServer := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{}))
-	spamer := spam.NewService(pyurl)
-	server := app.NewServer(spamer, ctx)
+	spamer := spam.Service{pyurl}
+	server := app.NewServer(&spamer, ctx)
 	serverPb.RegisterSpamerServer(grpcServer, server)
 	return grpcServer.Serve(listener)
 }
