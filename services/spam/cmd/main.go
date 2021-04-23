@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"contrib.go.opencensus.io/exporter/jaeger"
+	"github.com/DaniilOr/spamer/services/spam/cmd/app"
+	"github.com/DaniilOr/spamer/services/spam/pkg/spam"
 	serverPb "github.com/DaniilOr/spamer/services/spam/pkg/server"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/trace"
@@ -10,7 +12,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"spamer/services/spam/pkg/spam"
 )
 const (
 	defaultPort = "8080"

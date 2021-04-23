@@ -17,7 +17,7 @@ type Params struct {
 type Resp struct {
 	Result string `json:"result"`
 }
-func (s*Service) NewService(url string) *Service{
+func NewService(url string) *Service{
 	return &Service{PYURL: url}
 }
 func (s*Service) Spam(url string, interval int64, numStreams int64) (string, error){

@@ -20,11 +20,11 @@ func NewServer(spam *spam.Service, ctx context.Context) *Server {
 func (s *Server) Spam(ctx context.Context, request *serverPb.Target) ( * serverPb.Response, error) {
 	ctx, span := trace.StartSpan(ctx, "route: token")
 	defer span.End()
-	res, err := s.spam.Spam(ctx, request.url, request.interval, request.numStreams)
+	res, err := s.spam.Spam(request.Url, request.Interval, request.NumStreams)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-	response := serverPb.Response{verdict: res}
+	response := serverPb.Response{Verdict: res}
 	return &response, nil
 }

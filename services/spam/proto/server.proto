@@ -9,11 +9,11 @@ service Spamer{
 }
 
 message Target{
-  string url=1;
-  int64 interval=2;
-  int64 numStreams=3;
+  string Url=1;
+  int64 Interval=2;
+  int64 NumStreams=3;
 }
 
 message Response{
-  string verdict=1;
+  string Verdict=1;
 }
