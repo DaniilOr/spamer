@@ -2,6 +2,7 @@ package main
 
 import (
 	"contrib.go.opencensus.io/exporter/jaeger"
+	"github.com/DaniilOr/spamer/services/backend/cmd/app"
 	"github.com/DaniilOr/spamer/services/backend/pkg/auth"
 	"github.com/DaniilOr/spamer/services/backend/pkg/classifier"
 	"github.com/DaniilOr/spamer/services/backend/pkg/spam"
@@ -11,7 +12,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"spamer/spamer/services/backend/cmd/app"
 )
 
 const (
