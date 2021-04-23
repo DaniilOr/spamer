@@ -3,6 +3,7 @@ package URLC
 import (
 	"bytes"
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -20,6 +21,7 @@ func NewService(url string) *Service{
 }
 
 func (s*Service) CheckURL(url string) (string, error){
+	log.Println("Enter chec URL")
 	data := Req{Url: url}
 	request, err := json.Marshal(data)
 	if err != nil{

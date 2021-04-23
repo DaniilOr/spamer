@@ -2,15 +2,12 @@ package main
 
 import (
 	"context"
-	"contrib.go.opencensus.io/exporter/jaeger"
 	"github.com/DaniilOr/spamer/services/classifier/cmd/app"
 	"github.com/DaniilOr/spamer/services/classifier/pkg/SMSC"
 	"github.com/DaniilOr/spamer/services/classifier/pkg/URLC"
 	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
 	"go.opencensus.io/plugin/ocgrpc"
-	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
-	"log"
 	"net"
 	"os"
 )
@@ -18,27 +15,9 @@ import (
 const (
 	defaultPort = "9090"
 	defaultHost = "0.0.0.0"
-	defaultURL  = ""
+	defaultURL  = "mlurl:5000/classify/url"
 )
-func InitJaeger(serviceName string) error{
-	exporter, err := jaeger.NewExporter(jaeger.Options{
-		AgentEndpoint: "jaeger:6831",
-		Process: jaeger.Process{
-			ServiceName: serviceName,
-			Tags: []jaeger.Tag{
-				jaeger.StringTag("hostname", "localhost"),
-			},
-		},
-	})
-	if err != nil {
-		return err
-	}
-	trace.RegisterExporter(exporter)
-	trace.ApplyConfig(trace.Config{
-		DefaultSampler: trace.AlwaysSample(),
-	})
-	return nil
-}
+
 func main() {
 	port, ok := os.LookupEnv("APP_PORT")
 	if !ok {
@@ -53,11 +32,6 @@ func main() {
 	url, ok := os.LookupEnv("ML_URL")
 	if !ok {
 		url = defaultURL
-	}
-	err := InitJaeger("auth")
-	if err != nil{
-		log.Println(err)
-		os.Exit(1)
 	}
 	if err := execute(net.JoinHostPort(host, port), url); err != nil {
 		os.Exit(1)

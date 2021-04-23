@@ -36,7 +36,7 @@ func NewService(pool *pgxpool.Pool) *Service {
 func (s *Service) Login(ctx context.Context, login string, password string) (string, int64, error) {
 
 	var personal UserDetails
-	log.Println("Quering db")
+	//log.Println("Quering db")
 	err := s.pool.QueryRow(ctx, `
 		SELECT id, login, password, roles FROM users WHERE login = $1
 	`, login).Scan(&personal.ID, &personal.Login, &personal.Password, &personal.Roles)
@@ -46,8 +46,8 @@ func (s *Service) Login(ctx context.Context, login string, password string) (str
 		}
 		return "", 0, err
 	}
-	log.Printf("Got password %v and have %v\n", personal.Password, []byte(password))
-	log.Printf("%v", personal)
+	//log.Printf("Got password %v and have %v\n", personal.Password, []byte(password))
+	//log.Printf("%v", personal)
 	err = bcrypt.CompareHashAndPassword(personal.Password, []byte(password))
 	if err != nil {
 		log.Println("Error with comparison")

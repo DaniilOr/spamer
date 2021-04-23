@@ -5,6 +5,7 @@ import (
 	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
 	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
+	"log"
 )
 
 type Service struct{
@@ -13,7 +14,9 @@ type Service struct{
 }
 
 func Init(addr string) (*Service, error){
+	log.Println("Enter Init classifier")
 	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	log.Println("Init classifier")
 	if err != nil {
 		return  nil, err
 	}
@@ -23,8 +26,10 @@ func Init(addr string) (*Service, error){
 }
 
 func (s*Service) CheckURL(ctx context.Context, url string) (string, error) {
-	ctx, span := trace.StartSpan(ctx, "route: token")
+	log.Println("Inside classifier")
+	ctx, span := trace.StartSpan(ctx, "route: url")
 	defer span.End()
+	log.Println("CHeck URL inside backend")
 	response, err := s.client.CheckURL(ctx, &serverPb.URLReq{Url: url})
 	if err != nil{
 		return "", err
@@ -32,7 +37,7 @@ func (s*Service) CheckURL(ctx context.Context, url string) (string, error) {
 	return response.Verdict, nil
 }
 func (s*Service) CheckSMS(ctx context.Context, sms string) (string, error) {
-	ctx, span := trace.StartSpan(ctx, "route: token")
+	ctx, span := trace.StartSpan(ctx, "route: sms")
 	defer span.End()
 	response, err := s.client.CheckSMS(ctx, &serverPb.SMSReq{Sms: sms})
 	if err != nil{

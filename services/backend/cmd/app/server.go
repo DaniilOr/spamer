@@ -1,6 +1,7 @@
 package app
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/DaniilOr/spamer/services/backend/pkg/auth"
@@ -42,10 +43,10 @@ func (s *Server) Init() error {
 		r.With(Auth(func(ctx context.Context, token string) (int64, error) {
 			return s.authSvc.Id(ctx, token)
 		})).Post("/spam", s.spam)
-		s.mux.Route("/classify", func(r chi.Router){
-			r.Post("/url", s.classifyURL)
-			r.Post("/sms", s.classifySMS)
-		})
+	})
+	s.mux.Route("/classify", func(r chi.Router){
+		r.Post("/url", s.classifyURL)
+		r.Post("/sms", s.classifySMS)
 	})
 
 	return nil
@@ -137,12 +138,6 @@ func (s *Server) spam(writer http.ResponseWriter, request *http.Request) {
 }
 
 func (s *Server) classifyURL(writer http.ResponseWriter, request *http.Request) {
-	_, err := AuthFrom(request.Context())
-	if err != nil {
-		log.Printf("can't find userID in context: %v", err)
-		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
 	data, err := ioutil.ReadAll(request.Body)
 	if err != nil {
 		return
@@ -153,6 +148,14 @@ func (s *Server) classifyURL(writer http.ResponseWriter, request *http.Request) 
 		log.Printf("fail to unmarshal url params: %v", err)
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
+	}
+	response, err := http.Post("http://127.0.0.1:5000/classify/url", "application/json", bytes.NewBuffer([]byte(r.Url)))
+	if err != nil{
+		log.Println("Such")
+		log.Printf("%v", err)
+	} else {
+		log.Println("Succcccc")
+		log.Println(response)
 	}
 	result, err := s.classifierSvc.CheckURL(request.Context(), r.Url)
 	if err != nil {
@@ -174,12 +177,6 @@ func (s *Server) classifyURL(writer http.ResponseWriter, request *http.Request) 
 	}
 }
 func (s *Server) classifySMS(writer http.ResponseWriter, request *http.Request) {
-	_, err := AuthFrom(request.Context())
-	if err != nil {
-		log.Printf("can't find userID in context: %v", err)
-		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
 	data, err := ioutil.ReadAll(request.Body)
 	if err != nil {
 		return

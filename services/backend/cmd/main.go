@@ -62,7 +62,7 @@ func main() {
 	}
 	spamURL, ok := os.LookupEnv("APP_SPAM_URL")
 	if !ok {
-		classifierURL = defaultSpamAPIURL
+		spamURL = defaultSpamAPIURL
 	}
 	err := InitJaeger("backed")
 	if err != nil{
