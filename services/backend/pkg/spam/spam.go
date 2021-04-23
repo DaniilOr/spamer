@@ -22,10 +22,10 @@ func Init(addr string) (*Service, error){
 	return &server, nil
 }
 
-func (s*Service) Spam(ctx context.Context, url string) (string, error) {
+func (s*Service) Spam(ctx context.Context, url string, interval int64, numStreams int64) (string, error) {
 	ctx, span := trace.StartSpan(ctx, "route: token")
 	defer span.End()
-	response, err := s.client.Spam(ctx, &serverPb.Target{Url: url})
+	response, err := s.client.Spam(ctx, &serverPb.Target{Url: url, Interval: interval, NumStreams: numStreams})
 	if err != nil{
 		return "", err
 	}
