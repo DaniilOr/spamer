@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package auth;
+option go_package = "pkg/server";
+
+
+service Spamer{
+  rpc Spam(Target) returns(Response);
+}
+
+message Target{
+  string url=1;
+  int64 interval=2;
+  int64 numStreams=3;
+}
+
+message Response{
+  string verdict=1;
+}
