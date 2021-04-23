@@ -4,9 +4,9 @@ import (
 	"context"
 	"contrib.go.opencensus.io/exporter/jaeger"
 	"github.com/DaniilOr/spamer/services/classifier/cmd/app"
-	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
-	"github.com/DaniilOr/spamer/services/classifier/pkg/URLC"
 	"github.com/DaniilOr/spamer/services/classifier/pkg/SMSC"
+	"github.com/DaniilOr/spamer/services/classifier/pkg/URLC"
+	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	defaultPort = "8080"
+	defaultPort = "9090"
 	defaultHost = "0.0.0.0"
 	defaultURL  = ""
 )

@@ -14,7 +14,7 @@ import (
 	"os"
 )
 const (
-	defaultPort = "8080"
+	defaultPort = "8888"
 	defaultHost = "0.0.0.0"
 	defaultURL  = ""
 )
