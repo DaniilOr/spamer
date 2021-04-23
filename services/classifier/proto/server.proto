@@ -5,8 +5,8 @@ option go_package = "pkg/server";
 
 
 service Classifier{
-  rpc UrlClassifier(URLReq) returns(URLResp);
-  rpc SMSClassifier(SMSReq) returns(SMSResp);
+  rpc CheckURL(URLReq) returns(URLResp);
+  rpc CheckSMS(SMSReq) returns(SMSResp);
 }
 
 message URLReq{

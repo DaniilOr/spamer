@@ -2,10 +2,10 @@ package app
 
 import (
 	"context"
-	"go.opencensus.io/trace"
-	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
 	"github.com/DaniilOr/spamer/services/classifier/pkg/SMSC"
 	"github.com/DaniilOr/spamer/services/classifier/pkg/URLC"
+	serverPb "github.com/DaniilOr/spamer/services/classifier/pkg/server"
+	"go.opencensus.io/trace"
 
 	"log"
 )
@@ -17,29 +17,29 @@ type Server struct {
 }
 
 func NewServer(sms *SMSC.Service, url *URLC.Service, ctx context.Context) *Server {
-	return &Server{SMSC: sms, URLC: urk, ctx: ctx}
+	return &Server{Sms: sms, Url: url, ctx: ctx}
 }
 
-func (s *Server) Token(ctx context.Context, request *serverPb.TokenRequest) ( * serverPb.TokenResponse, error) {
+func (s *Server) CheckURL(ctx context.Context, request *serverPb.URLReq) ( * serverPb.URLResp, error) {
 	ctx, span := trace.StartSpan(ctx, "route: token")
 	defer span.End()
-	token, exp, err := s.authSvc.Login(ctx, request.Login, request.Password)
+	res, err := s.Url.CheckURL(request.Url)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-	response := serverPb.TokenResponse{Token: token, Expire: exp}
+	response := serverPb.URLResp{Verdict: res}
 	return &response, nil
 }
 
-// Доступно всем
-func (s *Server) Id (ctx context.Context, request *serverPb.IdRequest) (*serverPb.IdResponse, error) {
-	userID, err := s.authSvc.UserID(ctx, request.Token)
+func (s *Server) CheckSMS(ctx context.Context, request *serverPb.SMSReq) ( * serverPb.SMSResp, error) {
+	ctx, span := trace.StartSpan(ctx, "route: token")
+	defer span.End()
+	res, err := s.Sms.CheckSMS(request.Sms)
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
-
-	response := serverPb.IdResponse{UserId: userID}
+	response := serverPb.SMSResp{Verdict: res}
 	return &response, nil
 }

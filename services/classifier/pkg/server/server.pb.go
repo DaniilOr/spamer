@@ -224,15 +224,14 @@ var file_server_proto_rawDesc = []byte{
 	0x10, 0x0a, 0x03, 0x73, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x73, 0x6d,
 	0x73, 0x22, 0x23, 0x0a, 0x07, 0x53, 0x4d, 0x53, 0x52, 0x65, 0x73, 0x70, 0x12, 0x18, 0x0a, 0x07,
 	0x76, 0x65, 0x72, 0x64, 0x69, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76,
-	0x65, 0x72, 0x64, 0x69, 0x63, 0x74, 0x32, 0x68, 0x0a, 0x0a, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69,
-	0x66, 0x69, 0x65, 0x72, 0x12, 0x2c, 0x0a, 0x0d, 0x55, 0x72, 0x6c, 0x43, 0x6c, 0x61, 0x73, 0x73,
-	0x69, 0x66, 0x69, 0x65, 0x72, 0x12, 0x0c, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x52, 0x4c,
-	0x52, 0x65, 0x71, 0x1a, 0x0d, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x52, 0x4c, 0x52, 0x65,
-	0x73, 0x70, 0x12, 0x2c, 0x0a, 0x0d, 0x53, 0x4d, 0x53, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69, 0x66,
-	0x69, 0x65, 0x72, 0x12, 0x0c, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x53, 0x4d, 0x53, 0x52, 0x65,
-	0x71, 0x1a, 0x0d, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x53, 0x4d, 0x53, 0x52, 0x65, 0x73, 0x70,
-	0x42, 0x0c, 0x5a, 0x0a, 0x70, 0x6b, 0x67, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x72, 0x64, 0x69, 0x63, 0x74, 0x32, 0x5e, 0x0a, 0x0a, 0x43, 0x6c, 0x61, 0x73, 0x73, 0x69,
+	0x66, 0x69, 0x65, 0x72, 0x12, 0x27, 0x0a, 0x08, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x55, 0x52, 0x4c,
+	0x12, 0x0c, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x52, 0x4c, 0x52, 0x65, 0x71, 0x1a, 0x0d,
+	0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x55, 0x52, 0x4c, 0x52, 0x65, 0x73, 0x70, 0x12, 0x27, 0x0a,
+	0x08, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x53, 0x4d, 0x53, 0x12, 0x0c, 0x2e, 0x61, 0x75, 0x74, 0x68,
+	0x2e, 0x53, 0x4d, 0x53, 0x52, 0x65, 0x71, 0x1a, 0x0d, 0x2e, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x53,
+	0x4d, 0x53, 0x52, 0x65, 0x73, 0x70, 0x42, 0x0c, 0x5a, 0x0a, 0x70, 0x6b, 0x67, 0x2f, 0x73, 0x65,
+	0x72, 0x76, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -255,10 +254,10 @@ var file_server_proto_goTypes = []interface{}{
 	(*SMSResp)(nil), // 3: auth.SMSResp
 }
 var file_server_proto_depIdxs = []int32{
-	0, // 0: auth.Classifier.UrlClassifier:input_type -> auth.URLReq
-	2, // 1: auth.Classifier.SMSClassifier:input_type -> auth.SMSReq
-	1, // 2: auth.Classifier.UrlClassifier:output_type -> auth.URLResp
-	3, // 3: auth.Classifier.SMSClassifier:output_type -> auth.SMSResp
+	0, // 0: auth.Classifier.CheckURL:input_type -> auth.URLReq
+	2, // 1: auth.Classifier.CheckSMS:input_type -> auth.SMSReq
+	1, // 2: auth.Classifier.CheckURL:output_type -> auth.URLResp
+	3, // 3: auth.Classifier.CheckSMS:output_type -> auth.SMSResp
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -353,8 +352,8 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ClassifierClient interface {
-	UrlClassifier(ctx context.Context, in *URLReq, opts ...grpc.CallOption) (*URLResp, error)
-	SMSClassifier(ctx context.Context, in *SMSReq, opts ...grpc.CallOption) (*SMSResp, error)
+	CheckURL(ctx context.Context, in *URLReq, opts ...grpc.CallOption) (*URLResp, error)
+	CheckSMS(ctx context.Context, in *SMSReq, opts ...grpc.CallOption) (*SMSResp, error)
 }
 
 type classifierClient struct {
@@ -365,18 +364,18 @@ func NewClassifierClient(cc grpc.ClientConnInterface) ClassifierClient {
 	return &classifierClient{cc}
 }
 
-func (c *classifierClient) UrlClassifier(ctx context.Context, in *URLReq, opts ...grpc.CallOption) (*URLResp, error) {
+func (c *classifierClient) CheckURL(ctx context.Context, in *URLReq, opts ...grpc.CallOption) (*URLResp, error) {
 	out := new(URLResp)
-	err := c.cc.Invoke(ctx, "/auth.Classifier/UrlClassifier", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.Classifier/CheckURL", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *classifierClient) SMSClassifier(ctx context.Context, in *SMSReq, opts ...grpc.CallOption) (*SMSResp, error) {
+func (c *classifierClient) CheckSMS(ctx context.Context, in *SMSReq, opts ...grpc.CallOption) (*SMSResp, error) {
 	out := new(SMSResp)
-	err := c.cc.Invoke(ctx, "/auth.Classifier/SMSClassifier", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/auth.Classifier/CheckSMS", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -385,57 +384,57 @@ func (c *classifierClient) SMSClassifier(ctx context.Context, in *SMSReq, opts .
 
 // ClassifierServer is the server API for Classifier service.
 type ClassifierServer interface {
-	UrlClassifier(context.Context, *URLReq) (*URLResp, error)
-	SMSClassifier(context.Context, *SMSReq) (*SMSResp, error)
+	CheckURL(context.Context, *URLReq) (*URLResp, error)
+	CheckSMS(context.Context, *SMSReq) (*SMSResp, error)
 }
 
 // UnimplementedClassifierServer can be embedded to have forward compatible implementations.
 type UnimplementedClassifierServer struct {
 }
 
-func (*UnimplementedClassifierServer) UrlClassifier(context.Context, *URLReq) (*URLResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UrlClassifier not implemented")
+func (*UnimplementedClassifierServer) CheckURL(context.Context, *URLReq) (*URLResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckURL not implemented")
 }
-func (*UnimplementedClassifierServer) SMSClassifier(context.Context, *SMSReq) (*SMSResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SMSClassifier not implemented")
+func (*UnimplementedClassifierServer) CheckSMS(context.Context, *SMSReq) (*SMSResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckSMS not implemented")
 }
 
 func RegisterClassifierServer(s *grpc.Server, srv ClassifierServer) {
 	s.RegisterService(&_Classifier_serviceDesc, srv)
 }
 
-func _Classifier_UrlClassifier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Classifier_CheckURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(URLReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ClassifierServer).UrlClassifier(ctx, in)
+		return srv.(ClassifierServer).CheckURL(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/auth.Classifier/UrlClassifier",
+		FullMethod: "/auth.Classifier/CheckURL",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClassifierServer).UrlClassifier(ctx, req.(*URLReq))
+		return srv.(ClassifierServer).CheckURL(ctx, req.(*URLReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Classifier_SMSClassifier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Classifier_CheckSMS_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SMSReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ClassifierServer).SMSClassifier(ctx, in)
+		return srv.(ClassifierServer).CheckSMS(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/auth.Classifier/SMSClassifier",
+		FullMethod: "/auth.Classifier/CheckSMS",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClassifierServer).SMSClassifier(ctx, req.(*SMSReq))
+		return srv.(ClassifierServer).CheckSMS(ctx, req.(*SMSReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -445,12 +444,12 @@ var _Classifier_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ClassifierServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "UrlClassifier",
-			Handler:    _Classifier_UrlClassifier_Handler,
+			MethodName: "CheckURL",
+			Handler:    _Classifier_CheckURL_Handler,
 		},
 		{
-			MethodName: "SMSClassifier",
-			Handler:    _Classifier_SMSClassifier_Handler,
+			MethodName: "CheckSMS",
+			Handler:    _Classifier_CheckSMS_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
