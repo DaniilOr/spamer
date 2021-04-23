@@ -21,6 +21,8 @@ func (s *Server) Token(ctx context.Context, request *serverPb.TokenRequest) ( * 
 	ctx, span := trace.StartSpan(ctx, "route: token")
 	defer span.End()
 	token, exp, err := s.authSvc.Login(ctx, request.Login, request.Password)
+	log.Println(request.Login, request.Password)
+	log.Println(token, exp)
 	if err != nil {
 		log.Println(err)
 		return nil, err

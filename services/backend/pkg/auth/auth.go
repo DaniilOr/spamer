@@ -5,6 +5,7 @@ import (
 	serverPb "github.com/DaniilOr/spamer/services/auth/pkg/server"
 	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
+	"log"
 )
 
 type Service struct{
@@ -24,6 +25,7 @@ func Init(addr string) (*Service, error){
 func (s*Service) Token(ctx context.Context, login string, password string) (token string, err error) {
 	ctx, span := trace.StartSpan(ctx, "route: token")
 	defer span.End()
+	log.Println(login, password)
 	response, err := s.client.Token(ctx, &serverPb.TokenRequest{Login: login, Password: password})
 	if err != nil{
 		return "", err
