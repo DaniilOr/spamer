@@ -20,6 +20,9 @@ type Params struct {
 type Resp struct {
 	Result string `json:"result"`
 }
+type Req struct {
+	Url string
+}
 type Server struct {
 	authSvc         *auth.Service
 	classifierSvc   *classifier.Service
@@ -38,7 +41,11 @@ func (s *Server) Init() error {
 		r.Post("/token", s.token)
 		r.With(Auth(func(ctx context.Context, token string) (int64, error) {
 			return s.authSvc.Id(ctx, token)
-		})).Get("/spam", s.spam)
+		})).Post("/spam", s.spam)
+		s.mux.Route("/classify", func(r chi.Router){
+			r.Post("/url", s.classifyURL)
+			r.Post("/sms", s.classifySMS)
+		})
 	})
 
 	return nil
@@ -111,11 +118,16 @@ func (s *Server) spam(writer http.ResponseWriter, request *http.Request) {
 	}
 	result, err := s.spamerSvc.Spam(request.Context(), params.Url, params.Interval, params.NumStreams)
 	if err != nil {
-		log.Printf("Transactions Service returns error: %v", err)
+		log.Printf("Spamer Service returns error: %v", err)
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
-
+	data, err = json.Marshal(Resp{Result: result})
+	if err != nil{
+		log.Printf("Cannot marhsal spamer result: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
 	writer.Header().Set("Content-Type", "application/json")
 	_, err = writer.Write(data)
 	if err != nil {
@@ -124,3 +136,77 @@ func (s *Server) spam(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
+func (s *Server) classifyURL(writer http.ResponseWriter, request *http.Request) {
+	_, err := AuthFrom(request.Context())
+	if err != nil {
+		log.Printf("can't find userID in context: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	data, err := ioutil.ReadAll(request.Body)
+	if err != nil {
+		return
+	}
+	var r Req
+	err = json.Unmarshal(data, &r)
+	if err != nil{
+		log.Printf("fail to unmarshal url params: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	result, err := s.classifierSvc.CheckURL(request.Context(), r.Url)
+	if err != nil {
+		log.Printf("Classifier URl Service returns error: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	data, err = json.Marshal(Resp{Result: result})
+	if err != nil{
+		log.Printf("Cannot marhsal classifier result: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
+	_, err = writer.Write(data)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+}
+func (s *Server) classifySMS(writer http.ResponseWriter, request *http.Request) {
+	_, err := AuthFrom(request.Context())
+	if err != nil {
+		log.Printf("can't find userID in context: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	data, err := ioutil.ReadAll(request.Body)
+	if err != nil {
+		return
+	}
+	var r Req
+	err = json.Unmarshal(data, &r)
+	if err != nil{
+		log.Printf("fail to unmarshal url params: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	result, err := s.classifierSvc.CheckSMS(request.Context(), r.Url)
+	if err != nil {
+		log.Printf("Classifier SMA Service returns error: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	data, err = json.Marshal(Resp{Result: result})
+	if err != nil{
+		log.Printf("Cannot marhsal classifier result: %v", err)
+		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
+	_, err = writer.Write(data)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+}
