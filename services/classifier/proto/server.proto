@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package auth;
+option go_package = "pkg/server";
+
+
+service Classifier{
+  rpc UrlClassifier(URLReq) returns(URLResp);
+  rpc SMSClassifier(SMSReq) returns(SMSResp);
+}
+
+message URLReq{
+  string url=1;
+}
+
+message URLResp{
+  string verdict=1;
+}
+message SMSReq{
+  string sms=1;
+}
+
+message SMSResp{
+  string verdict=1;
+}
