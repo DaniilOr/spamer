@@ -10,8 +10,9 @@ import (
 	"log"
 	"net"
 	"os"
-	"spamer/services/auth/pkg/auth"
-	serverPb "github.com/DaniilOr/spamer/auth"
+	"github.com/DaniilOr/spamer/services/auth/cmd/server"
+	"github.com/DaniilOr/spamer/services/auth/pkg/auth"
+	serverPb "github.com/DaniilOr/spamer/services/auth/pkg/server"
 )
 
 const (
