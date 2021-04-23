@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"contrib.go.opencensus.io/exporter/jaeger"
+	"github.com/DaniilOr/spamer/services/auth/cmd/app"
+	"github.com/DaniilOr/spamer/services/auth/pkg/auth"
+	serverPb "github.com/DaniilOr/spamer/services/auth/pkg/server"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/trace"
@@ -10,9 +13,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"github.com/DaniilOr/spamer/services/auth/pkg/auth"
-	serverPb "github.com/DaniilOr/spamer/services/auth/pkg/server"
-	"github.com/DaniilOr/spamer/services/auth/cmd/app"
 )
 
 const (
