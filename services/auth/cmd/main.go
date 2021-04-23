@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"contrib.go.opencensus.io/exporter/jaeger"
-	"github.com/jackc/pgx/pgxpool"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"go.opencensus.io/plugin/ocgrpc"
 	"go.opencensus.io/trace"
 	"google.golang.org/grpc"
