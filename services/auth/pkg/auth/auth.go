@@ -3,10 +3,9 @@ package auth
 import (
 	"context"
 	"errors"
-	"github.com/jackc/pgx"
-	"github.com/jackc/pgx/pgxpool"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"golang.org/x/crypto/bcrypt"
-	"spamer/services/auth/pkg/jwt/symmetric"
+	"github.com/DaniilOr/spamer/services/auth/pkg/jwt/symmetric"
 	"time"
 )
 
