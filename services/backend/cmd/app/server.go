@@ -9,6 +9,7 @@ import (
 	"github.com/DaniilOr/spamer/services/backend/pkg/spam"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -56,7 +57,7 @@ func (s *Server) Init() error {
 	s.mux.Route("/classify", func(r chi.Router){
 		r.Post("/url", s.classifyURL)
 		r.Post("/sms", s.classifySMS)
-	})ss
+	})
 
 	return nil
 }
