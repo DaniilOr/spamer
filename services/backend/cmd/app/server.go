@@ -31,7 +31,10 @@ type Server struct {
 	spamerSvc       *spam.Service
 	mux             chi.Router
 }
-
+type UserCreds struct{
+	Login    string `json:"login"`
+	Password string `json:"password"`
+}
 func NewServer(authSvc *auth.Service, classifierSvc *classifier.Service, spamerSvc *spam.Service, mux chi.Router) *Server {
 	return &Server{authSvc: authSvc, classifierSvc: classifierSvc, spamerSvc:spamerSvc, mux: mux}
 }
@@ -67,27 +70,18 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 }
 
 func (s *Server) token(writer http.ResponseWriter, request *http.Request) {
-	err := request.ParseForm()
+	var uCreds UserCreds
+	decoder := json.NewDecoder(request.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&uCreds)
 	if err != nil {
 		log.Print("can't parse form")
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
+	log.Printf("%v", uCreds)
 
-	login := request.PostForm.Get("login")
-	if login == "" {
-		log.Print("no login in request")
-		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-	password := request.PostForm.Get("password")
-	if password == "" {
-		log.Print("no password in request")
-		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
-		return
-	}
-
-	token, err := s.authSvc.Token(request.Context(), login, password)
+	token, err := s.authSvc.Token(request.Context(), uCreds.Login, uCreds.Password)
 	if err != nil {
 		log.Printf("Auth Service returns error: %v", err)
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
