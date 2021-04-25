@@ -87,7 +87,7 @@ func (s *Server) token(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	data := &tokenDTO{Token: token}
+	data := &tokenDTO{Token: token, Exp: 600, Login: "user"}
 	respBody, err := json.Marshal(data)
 	if err != nil {
 		log.Printf("can't marshall data: %v", err)
