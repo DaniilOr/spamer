@@ -11,7 +11,7 @@ type Service struct {
 	MLURL string
 }
 type Req struct {
-	Url string
+	Url string `json:"url"`
 }
 type Resp struct {
 	Verdict string

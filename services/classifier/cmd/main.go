@@ -15,7 +15,7 @@ import (
 const (
 	defaultPort = "9090"
 	defaultHost = "0.0.0.0"
-	defaultURL  = "mlurl:5000/classify/url"
+	defaultURL  = "http://flask:5000"
 )
 
 func main() {

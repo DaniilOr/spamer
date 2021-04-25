@@ -1,7 +1,6 @@
 package app
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/DaniilOr/spamer/services/backend/pkg/auth"
@@ -152,14 +151,6 @@ func (s *Server) classifyURL(writer http.ResponseWriter, request *http.Request) 
 		log.Printf("fail to unmarshal url params: %v", err)
 		http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
-	}
-	response, err := http.Post("http://127.0.0.1:5000/classify/url", "application/json", bytes.NewBuffer([]byte(r.Url)))
-	if err != nil{
-		log.Println("Such")
-		log.Printf("%v", err)
-	} else {
-		log.Println("Succcccc")
-		log.Println(response)
 	}
 	result, err := s.classifierSvc.CheckURL(request.Context(), r.Url)
 	if err != nil {

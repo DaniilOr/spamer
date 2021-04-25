@@ -36,6 +36,7 @@ services:
             - 9090:9090
         links:
             - jaeger
+            - flask
     spam:
         build:
             context: services/spam
@@ -52,4 +53,20 @@ services:
             - "6832:6832/udp"
             - "5778:5778"
             - "16686:16686"
-
+    flask:
+        # Путь до Dockerfile
+        build: ./services/mlurl
+        # Имя для создаваемого контейнера
+        container_name: backend-flask
+        # Создание переменных окружения в контейнере
+        environment:
+            - FLASK_ENV=development
+            - PYTHONUNBUFFERED=True
+        restart: on-failure
+        volumes:
+             - ./services/mlurl:/backend
+    # Открываем порт в контейнер
+    # Порт, который будет смотреть наружу : порт который используется внутри контейнера
+        ports:
+            - "5000:5000"
+        command: python main.py
