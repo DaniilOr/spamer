@@ -88,3 +88,11 @@ services:
         ports:
             - "5555:5000"
         command: python main.py
+
+    urlcache:
+        image: redis:6.0-alpine
+        ports:
+            - 6379:6379
+        volumes:
+            - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+        command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
