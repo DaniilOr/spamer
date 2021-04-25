@@ -9,6 +9,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"go.opencensus.io/plugin/ocgrpc"
 	"google.golang.org/grpc"
+	"log"
 	"net"
 	"os"
 )
@@ -18,7 +19,7 @@ const (
 	defaultHost = "0.0.0.0"
 	defaultURL  = "http://flask:5000"
 	defaultSMS = "http://sms_flask:5000"
-	defaultCacheDSN = "redis://localhost:6379/0"
+	defaultCacheDSN = "redis://urlcache:6379/0"
 )
 
 func main() {
@@ -63,8 +64,8 @@ func execute(addr string, url string, sms string, cache string) error {
 			return redis.DialURL(cache)
 		},
 	}
-
-	server := app.NewServer(Smss, Urls, ctx, cacher)
+	log.Println(cacher)
+	server := app.NewServer(Smss, Urls, cacher, ctx)
 	serverPb.RegisterClassifierServer(grpcServer, server)
 	return grpcServer.Serve(listener)
 }

@@ -1,4 +1,4 @@
-db.createUser({
+db.createURLs({
     user: "app",
     pwd: "pass",
     roles: [

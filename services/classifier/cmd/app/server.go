@@ -30,10 +30,11 @@ func (s *Server) CheckURL(ctx context.Context, request *serverPb.URLReq) ( * ser
 	var r CacheResp
 	if cached, err := s.FromCache(ctx, fmt.Sprintf("urls:%s", request.Url)); err == nil {
 		log.Printf("Got from cache: %s", cached)
-		err = json.Unmarshal(cached, r)
+		err = json.Unmarshal(cached, &r)
 		if err != nil{
 			return nil, err
 		}
+		log.Printf("%v", r)
 		return &serverPb.URLResp{Verdict: r.Url}, nil
 	}
 	res, err := s.Url.CheckURL(request.Url)
@@ -46,7 +47,7 @@ func (s *Server) CheckURL(ctx context.Context, request *serverPb.URLReq) ( * ser
 	if err != nil{
 		return nil, err
 	}
-	err = s.ToCache(ctx, fmt.Sprintf("urls:%s", res), data)
+	err = s.ToCache(ctx, fmt.Sprintf("urls:%s", request.Url), data)
 	response := serverPb.URLResp{Verdict: res}
 	return &response, nil
 }
@@ -103,6 +104,7 @@ func (s *Server) ToCache(ctx context.Context, key string, value []byte) error {
 
 	_, err = redis.DoWithTimeout(conn, cacheTimeout, "SET", key, value)
 	if err != nil {
+		log.Println("error inside to cache")
 		log.Print(err)
 	}
 	return err
