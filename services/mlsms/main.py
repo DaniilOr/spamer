@@ -9,8 +9,10 @@ def pred():
         print(url)
         #print(model.predict_proba(url))
         #print(url)
-        res
-        return  make_response(jsonify({'Verdict':predict(url)}), 200)
+        res = predict(url)
+        if res == "ham":
+            res = "ok"
+        return  make_response(jsonify({'Verdict':res}), 200)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
