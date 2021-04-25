@@ -64,7 +64,7 @@ func execute(addr string, url string, sms string, cache string) error {
 		},
 	}
 
-	server := app.NewServer(Smss, Urls, ctx, cache)
+	server := app.NewServer(Smss, Urls, ctx, cacher)
 	serverPb.RegisterClassifierServer(grpcServer, server)
 	return grpcServer.Serve(listener)
 }
