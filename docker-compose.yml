@@ -37,6 +37,7 @@ services:
         links:
             - jaeger
             - flask
+            - sms_flask
     spam:
         build:
             context: services/spam
@@ -65,6 +66,23 @@ services:
         restart: on-failure
         volumes:
              - ./services/mlurl:/backend
+    # Открываем порт в контейнер
+    # Порт, который будет смотреть наружу : порт который используется внутри контейнера
+        ports:
+            - "5000:5000"
+        command: python main.py
+    sms_flask:
+        # Путь до Dockerfile
+        build: ./services/mlsms
+        # Имя для создаваемого контейнера
+        container_name: backend-flasksms
+        # Создание переменных окружения в контейнере
+        environment:
+            - FLASK_ENV=development
+            - PYTHONUNBUFFERED=True
+        restart: on-failure
+        volumes:
+             - ./services/mlsms:/backend
     # Открываем порт в контейнер
     # Порт, который будет смотреть наружу : порт который используется внутри контейнера
         ports:

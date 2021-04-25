@@ -16,6 +16,7 @@ const (
 	defaultPort = "9090"
 	defaultHost = "0.0.0.0"
 	defaultURL  = "http://flask:5000"
+	defaultSMS = "http://sms_flask:5000"
 )
 
 func main() {
@@ -33,19 +34,23 @@ func main() {
 	if !ok {
 		url = defaultURL
 	}
-	if err := execute(net.JoinHostPort(host, port), url); err != nil {
+	sms, ok := os.LookupEnv("ML_SMS")
+	if !ok{
+		sms = defaultSMS
+	}
+	if err := execute(net.JoinHostPort(host, port), url, sms); err != nil {
 		os.Exit(1)
 	}
 }
 
-func execute(addr string, url string) error {
+func execute(addr string, url string, sms string) error {
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
 	ctx := context.Background()
 	grpcServer := grpc.NewServer(grpc.StatsHandler(&ocgrpc.ServerHandler{}))
-	Smss := SMSC.NewService(url)
+	Smss := SMSC.NewService(sms)
 	Urls := URLC.NewService(url)
 	server := app.NewServer(Smss, Urls, ctx)
 	serverPb.RegisterClassifierServer(grpcServer, server)

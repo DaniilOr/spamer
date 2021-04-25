@@ -23,4 +23,17 @@ client.test("Request executed successfully", function() {
   client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
   client.global.set("token", response.body.token);
 });
+
+###
+
+POST http://localhost:9999/classify/sms
+Content-Type: application/json
+
+{"url":  "Привет, победа уже твоя. Пройди простой опрос и получи сто тысяч тенге!"}
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.contentType.mimeType === "application/json", "Expected 'application/json' but received '" + response.contentType.mimeType + "'");
+  client.global.set("token", response.body.token);
+});
 %}
